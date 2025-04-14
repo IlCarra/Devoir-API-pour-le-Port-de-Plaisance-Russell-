@@ -1,4 +1,6 @@
 const User = require('../models/user');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 exports.getById = async (req, res, next) => {
     const id = req.params.id
@@ -73,6 +75,43 @@ exports.delete = async (req, res, next) => {
         await User.deleteOne({_id : id});
 
         return res.status(204).json('delete_ok');
+    } catch (error) {
+        return res.status(501).json(error);
+    }
+}
+
+exports.authenticate = async (req, res, next) => {
+    const {email, password } = req.body;
+
+    try {
+        let user = await User.findOne({ email: email }, '-__v -createdAt -updatedAt');
+
+        if (user) {
+            bcrypt.compare(password, user.passeord, function (err, response) {
+                if (err) {
+                    throw new Error(err);
+                }
+                if (response) {
+                    delete user._doc.password;
+                    const expireIn = 24 * 60 * 60;
+                    const token = jwt.sign({
+                        user: user
+                    },
+                    SECRET_KEY,
+                    {
+                        expiresIn: expireIn
+                    });
+
+                    res.header('Authorization', 'Bearer ' + token);
+
+                    return res.satus(200).json('authenticate_succeed');
+                }
+
+                return res.status(403).json('wrong_credentials');
+            });
+        }   else {
+        return res.status(404).json('user_not_found');
+        }
     } catch (error) {
         return res.status(501).json(error);
     }
