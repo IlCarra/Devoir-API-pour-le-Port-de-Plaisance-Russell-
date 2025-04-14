@@ -1,16 +1,17 @@
 const mongoose = require('mongoose');
 
 const clientOptions = {
-    useNewUrlParser: true,
-    dbName: 'apinode'
+    dbName : 'apinode'
 };
 
 exports.initClientDbConnection = async () => {
     try {
+        console.log('URL_MONGO:', process.env.URL_MONGO)
         await mongoose.connect(process.env.URL_MONGO, clientOptions)
         console.log('connected');
-    } catch(error) {
+    } catch (error) {
         console.log(error);
+        console.log(error.stack);
         throw error;
     }
 }
