@@ -5,10 +5,6 @@ const jwt = require('jsonwebtoken');
 exports.getById = async (req, res, next) => {
     const id = req.params.id
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(400).json('Invalid_user_ID');
-    }
-
     try {
         let user = await User.findById(id);
 
@@ -87,7 +83,7 @@ exports.authenticate = async (req, res, next) => {
         let user = await User.findOne({ email: email }, '-__v -createdAt -updatedAt');
 
         if (user) {
-            bcrypt.compare(password, user.passeord, function (err, response) {
+            bcrypt.compare(password, user.password, function (err, response) {
                 if (err) {
                     throw new Error(err);
                 }
@@ -97,14 +93,14 @@ exports.authenticate = async (req, res, next) => {
                     const token = jwt.sign({
                         user: user
                     },
-                    SECRET_KEY,
+                    process.env.SECRET_KEY,
                     {
                         expiresIn: expireIn
                     });
 
                     res.header('Authorization', 'Bearer ' + token);
 
-                    return res.satus(200).json('authenticate_succeed');
+                    return res.status(200).json('authenticate_succeed');
                 }
 
                 return res.status(403).json('wrong_credentials');
