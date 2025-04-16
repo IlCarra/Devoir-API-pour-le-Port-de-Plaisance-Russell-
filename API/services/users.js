@@ -2,11 +2,11 @@ const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-exports.getById = async (req, res, next) => {
-    const id = req.params.id
+exports.getByEmail = async (req, res, next) => {
+    const email = req.params.email
 
     try {
-        let user = await User.findById(id);
+        let user = await User.findByEmail(email);
 
         if (user) {
             return res.status(200).json(user);
@@ -36,7 +36,7 @@ exports.add = async (req, res, next) => {
 }
 
 exports.update = async (req, res, next) => {
-    const id = req.params.id
+    const email = req.params.email
     const temp = ({
         name: req.body.name,
         fistname: req.body.firstname,
@@ -45,7 +45,7 @@ exports.update = async (req, res, next) => {
     });
 
     try {
-        let user = await User.findOne({_id : id});
+        let user = await User.findOne({email: email});
 
         if (user) {
             Object.keys(temp).forEach((key) =>{
@@ -65,10 +65,10 @@ exports.update = async (req, res, next) => {
 }
 
 exports.delete = async (req, res, next) => {
-    const id = req.params.id
+    const email = req.params.email
 
     try {
-        await User.deleteOne({_id : id});
+        await User.deleteOne({email : email});
 
         return res.status(204).json('delete_ok');
     } catch (error) {
@@ -112,3 +112,15 @@ exports.authenticate = async (req, res, next) => {
         return res.status(501).json(error);
     }
 }
+
+exports.logout = async (req, res, next) => {
+    try {
+        const token = req.headers.authorization.split(' ')[1];
+
+        const decoded = jwt.verify(token, process.env.SECRET_KEY);
+        
+        return res.status(200).json('logout_succeed');
+    } catch (error) {
+        return res.status(500).json('Internal_server_error');
+    }
+};
