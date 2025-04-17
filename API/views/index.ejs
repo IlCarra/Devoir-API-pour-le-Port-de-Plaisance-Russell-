@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Port Russel's API</title>
+</head>
+<body>
+    <h1>Bienvenue sur notre application</h1>
+    <p>Ici vous pourrez y vérifier, modifier et, le cas échéant, supprimer votre réservation</p>
+
+    <h2>Login</h2>
+    <form action="/users/authenticate" method="post">
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required><br><br>
+
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" required><br><br>
+
+        <input type="submit" value="Login">
+    </form>
+
+    <p><a href="/">Documentazione API</a></p>
+</body>
+</html>

@@ -6,7 +6,7 @@ exports.getByEmail = async (req, res, next) => {
     const email = req.params.email
 
     try {
-        let user = await User.findByEmail(email);
+        let user = await User.findOne({ email: email });
 
         if (user) {
             return res.status(200).json(user);

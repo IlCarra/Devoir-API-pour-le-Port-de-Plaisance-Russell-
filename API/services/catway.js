@@ -48,35 +48,36 @@ exports.getCatwayById = async (req, res) => {
 exports.updateCatway = async (req, res, next) => {
     const id = req.params.id
 
-    try {
     const temp = ({
         catwayNumber: req.body.catwayNumber,
         catwayType: req.body.catwayType,
         catwayState: req.body.catwayState
     });
+    try {
+        const updatedCatway = await Catways.findByIdAndUpdate(id, temp, { new: true });
 
-    if (!catway) {
-        return res.status(404).json('catway_not_found');
-    }
-    res.json(catway);
-    } catch (error){
-        res.status(400).json(error);
+        if (!updatedCatway) {
+            return res.status(404).json('catway_not_found');
+        }
+        res.status(200).json(updatedCatway);
+    } catch (error) {
+        res.status(500).json('internal_server_error');
     }
 }
 
 //Eliminer un catway
 exports.deleteCatway = async (req, res, next) => {
-    const catwayNumber = req.params.id
+    const id = req.params.id
 
     try {
-        await Catways.deleteOne({ catwayNumber: catwayNumber});
+        const deletedCatway = await Catways.findByIdAndDelete(id);
 
-        if (result.deletedCount === 0) {
-            return res.status(404).json('Catway not found');
+        if (!deletedCatway) {
+            return res.status(404).json('catway_not_found');
         }
 
-        return res.status(204).json('delete_ok');
+        return res.status(204).send();
     } catch (error) {
-        res.status(501).json(error);
+        res.status(500).json('internal_erver_error');
     }
 }
