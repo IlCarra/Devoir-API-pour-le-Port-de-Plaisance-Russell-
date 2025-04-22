@@ -3,7 +3,6 @@ var router = express.Router();
 
 const userRoute = require('../routes/users');
 const catwayRoute = require('../routes/catway');
-const reservationRoute = require('../routes/reservation');
 
 router.get('/', async (req, res) => {
   res.status(200).json({
@@ -16,6 +15,5 @@ router.get('/', async (req, res) => {
 
 router.use('/users', userRoute);
 router.use('/catway', catwayRoute);
-router.use('/reservation', reservationRoute);
 
 module.exports = router;

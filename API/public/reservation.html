@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des reservations</title>
+</head>
+<body>
+    <h1>Gestion des reservations</h1>
+
+    <table id="reservationsTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Catway</th>
+                <th>Client</th>
+                <th>Nom du bateau</th>
+                <th>Date de debut</th>
+                <th>Date de fin</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <h2>Ajoute/Modifie une reservation</h2>
+    <form id="reservationForm">
+        <input type="hidden" id="reservationId"> 
+        <label for="catwayNumber">Catway:</label>
+        <input type="text" id="catwayNumber" name="catwayNumber" required><br>
+
+        <label for="clientName">Client:</label>
+        <input type="text" id="clientName" required><br>
+
+        <label for="boatName">Nom du bateau:</label>
+        <input type="text" id="boatName"><br>
+
+        <label for="startDate">Date de debut:</label>
+        <input type="datetime-local" id="startDate" required><br>
+
+        <label for="endDate">Date de fin:</label>
+        <input type="datetime-local" id="endDate" required>
+
+        <button type="submit">Save</button>
+    </form>
+
+    <script src="../../javascripts/reservation.js"></script>
+</body>
+</html>

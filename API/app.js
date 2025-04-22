@@ -32,8 +32,15 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.get('/users-page', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'user.html'));
+});
+
 app.get('/catways-page', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'catway.html'));
+});
+app.get('/catways/:id/reservations-page', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'reservation.html'));
 });
 
 app.use('/', indexRouter);

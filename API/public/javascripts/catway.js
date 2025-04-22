@@ -18,7 +18,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     row.insertCell().textContent = catway.catwayType;
                     row.insertCell().textContent = catway.catwayState;
                     let actionCell = row.insertCell();
-                    actionCell.innerHTML = `<button onclick="editCatway('${catway._id}')">Modifier</button> <button onclick="deleteCatway('${catway._id}')">Eliminer</button>`;
+                    actionCell.innerHTML = `
+                        <button onclick="editCatway('${catway._id}')">Modifier</button> 
+                        <button onclick="deleteCatway('${catway._id}')">Eliminer</button>
+                        <button onclick="window.location.href='/catways/${catway._id}/reservations-page'">Prenotazioni</button>
+                    `;
                 });
             });
     };
