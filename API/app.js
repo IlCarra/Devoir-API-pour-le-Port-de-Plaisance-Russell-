@@ -14,16 +14,13 @@ mongodb.initClientDbConnection();
 
 var app = express();
 
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
-
 app.use(cors({
     exposerHeaders: ['Authorisation'],
     origin: '*' 
 }));
 
 app.get('/', (req, res) => {
-    res.render('index');
+    res.sendFile(path.join(__dirname, 'public', 'login.html'));
 });
 
 app.use(logger('dev'));
@@ -31,6 +28,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'login.html'));
+});
+
+app.get('/dashboard', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
+});
 
 app.get('/users-page', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'user.html'));

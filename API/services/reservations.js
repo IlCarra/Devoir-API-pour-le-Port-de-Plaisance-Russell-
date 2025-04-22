@@ -101,3 +101,14 @@ exports.deleteReservation = async (req, res) => {
     }
 }
 
+exports.getCurrentReservations = async (now) => {
+    try {
+        const reservations = await Reservations.find({
+            endDate: { $gte: now } // Récupère les réservations dont la date de fin est >= à la date actuelle
+        }).sort({ startDate: 1 }); // Optionnel : trier par date de début
+        return reservations;
+    } catch (error) {
+        console.error('Erreur lors de la recherche des réservations en cours:', error);
+        throw error;
+    }
+};

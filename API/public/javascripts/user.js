@@ -9,7 +9,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const loadUsers = async () => {
         try {
-            const response = await fetch('/users'); // Supposons que tu aies une route GET /users pour lister tous les utilisateurs (à ajouter à ton router Express)
+            const token = localStorage.getItem('jwtToken');
+            const response = await fetch('/users', {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
@@ -37,7 +42,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.editUser = async (email) => {
         try {
-            const response = await fetch(`/users/${email}`);
+            const token = localStorage.getItem('jwtToken');
+            const response = await fetch(`/users/${email}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
@@ -46,8 +56,8 @@ document.addEventListener('DOMContentLoaded', () => {
             nameInput.value = user.name;
             firstnameInput.value = user.firstname || '';
             emailInput.value = user.email;
-            emailInput.readOnly = true; // Empêcher la modification de l'email lors de la modification
-            passwordInput.value = ''; // Ne pas pré-remplir le mot de passe pour des raisons de sécurité
+            emailInput.readOnly = true;
+            passwordInput.value = '';
         } catch (error) {
             console.error('Erreur lors de la récupération de l\'utilisateur:', error);
         }
@@ -56,8 +66,12 @@ document.addEventListener('DOMContentLoaded', () => {
     window.deleteUser = async (email) => {
         if (confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')) {
             try {
+                const token = localStorage.getItem('jwtToken');
                 const response = await fetch(`/users/${email}`, {
                     method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
                 });
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -87,6 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 method: method,
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': localStorage.getItem('jwtToken') ? `Bearer ${localStorage.getItem('jwtToken')}` : ''
                 },
                 body: JSON.stringify(userData),
             });

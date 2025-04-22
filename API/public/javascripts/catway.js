@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     actionCell.innerHTML = `
                         <button onclick="editCatway('${catway._id}')">Modifier</button> 
                         <button onclick="deleteCatway('${catway._id}')">Eliminer</button>
-                        <button onclick="window.location.href='/catways/${catway._id}/reservations-page'">Prenotazioni</button>
+                        <button onclick="window.location.href='/catways/${catway._id}/reservations-page'">Reservations</button>
                     `;
                 });
             });
