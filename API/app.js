@@ -1,5 +1,7 @@
 require('dotenv').config({ path: `.env.${process.env.NODE_ENV || 'dev'}` });
 var express = require('express');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger_output.json');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -14,13 +16,16 @@ mongodb.initClientDbConnection();
 
 var app = express();
 
+app.set('view engine', 'ejs');
+app.set('views', __dirname + '/views');
+
 app.use(cors({
     exposerHeaders: ['Authorisation'],
     origin: '*' 
 }));
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'login.html'));
+    res.render('login');
 });
 
 app.use(logger('dev'));
@@ -28,24 +33,25 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'login.html'));
+    res.render('login');
 });
 
 app.get('/dashboard', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
+    res.render('dashboard');
 });
 
 app.get('/users-page', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'user.html'));
+    res.render('user');
 });
 
 app.get('/catways-page', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'catway.html'));
+    res.render('catway');
 });
 app.get('/catways/:id/reservations-page', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'reservation.html'));
+    res.render('reservation');
 });
 
 app.use('/', indexRouter);

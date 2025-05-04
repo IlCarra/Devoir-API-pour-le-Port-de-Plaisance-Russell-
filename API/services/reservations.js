@@ -1,7 +1,7 @@
 const Reservations = require('../models/reservations');
 const Catway = require('../models/catway');
 
-//Créer une reservation
+
 exports.createReservation = async (req, res, next) => {
     try {
         const catwayId = req.params.id;
@@ -32,7 +32,7 @@ exports.createReservation = async (req, res, next) => {
     }
 };
 
-//Obtenir toutes les reservations pour un catway
+
 exports.getAllReservationsByCatway = async (req, res) => {
     const catwayId = req.params.id;
     
@@ -52,7 +52,6 @@ exports.getAllReservationsByCatway = async (req, res) => {
     }
 };
 
-//Obtenir une reservation avec l'id du catway et l'id de reservation
 exports.getReservationById = async (req, res) => {
     try {
         const reservation = await Reservations.findOne({
@@ -67,7 +66,6 @@ exports.getReservationById = async (req, res) => {
     }
 }
 
-//Modifier une reservation
 exports.updateReservation = async (req, res) => {
     try {
         const reservation = await Reservations.findOneAndUpdate({ 
@@ -86,7 +84,6 @@ exports.updateReservation = async (req, res) => {
     }
 }
 
-//Eliminer une reservation
 exports.deleteReservation = async (req, res) => {
     try {
         const reservation = await Reservations.deleteOne({
@@ -100,6 +97,7 @@ exports.deleteReservation = async (req, res) => {
         res.status(500).json(error);
     }
 }
+
 
 exports.getCurrentReservations = async (now) => {
     try {

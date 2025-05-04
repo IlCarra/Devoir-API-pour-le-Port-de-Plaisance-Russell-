@@ -2,6 +2,7 @@ const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+
 exports.getByEmail = async (req, res, next) => {
     const email = req.params.email
 
@@ -18,10 +19,11 @@ exports.getByEmail = async (req, res, next) => {
     }
 }
 
+
 exports.add = async (req, res, next) => {
     const temp = ({
         name: req.body.name,
-        fistname: req.body.firstname,
+        firstname: req.body.firstname,
         email: req.body.email,
         password: req.body.password
     });
@@ -35,11 +37,12 @@ exports.add = async (req, res, next) => {
     }
 }
 
+
 exports.update = async (req, res, next) => {
     const email = req.params.email
     const temp = ({
         name: req.body.name,
-        fistname: req.body.firstname,
+        firstname: req.body.firstname,
         email: req.body.email,
         password: req.body.password
     });
@@ -63,6 +66,7 @@ exports.update = async (req, res, next) => {
         return res.status(501).json(error);
     }
 }
+
 
 exports.delete = async (req, res, next) => {
     const email = req.params.email
