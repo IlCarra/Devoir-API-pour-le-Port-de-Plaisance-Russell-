@@ -6,7 +6,8 @@
     "start": "node_modules/.bin/env-cmd -f ./env/.env nodemon ./bin/www",
     "dev": "env-cmd -f ./env/.env.dev nodemon ./bin/www",
     "prod": "env-cmd -f ./env/.env.prod nodemon ./bin/www",
-    "swagger-autogen": "node ./swagger.js"
+    "swagger-autogen": "node ./swagger.js",
+    "postinstall": "npm rebuild bcrypt"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
